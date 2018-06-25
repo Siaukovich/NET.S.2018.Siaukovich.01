@@ -21,7 +21,9 @@ namespace Sorting
         public static void Qsort(int[] array)
         {
             if (array == null)
+            {
                 throw new ArgumentNullException(nameof(array));
+            }
 
             Qsorting(array, 0, array.Length - 1);
         }
@@ -106,6 +108,118 @@ namespace Sorting
             int temp = a;
             a = b;
             b = temp;
+        }
+
+        /// <summary>
+        /// Mergesort algorithm. Array that was passed to this function will become sorted.
+        /// </summary>
+        /// <param name="array">
+        /// Array that needs to be sorted.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Array is null.
+        /// </exception>
+        public static void Mergesort(int[] array)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException(nameof(array));
+            }
+
+            Mergesorting(array, 0, array.Length - 1);
+        }
+
+        /// <summary>
+        /// Divides array into subarrays and sorts them.
+        /// </summary>
+        /// <param name="array">
+        /// Array that needs to be sorted.
+        /// </param>
+        /// <param name="left">
+        /// Left index of sub-array.
+        /// </param>
+        /// <param name="right">
+        /// Right index of sub-array.
+        /// </param>
+        private static void Mergesorting(int[] array, int left, int right)
+        {
+            if (left >= right)
+            {
+                return;
+            }
+
+            int middle = (left + right) / 2;
+            Mergesorting(array, left, middle);
+            Mergesorting(array, middle + 1, right);
+
+            Merge(array, left, middle, right);
+        }
+
+        /// <summary>
+        /// Performs merging of sorted sub-arrays.
+        /// </summary>
+        /// <param name="array">
+        /// Array that needs to be sorted.
+        /// </param>
+        /// <param name="left">
+        /// Left index of sub-array.
+        /// </param>
+        /// <param name="middle">
+        /// The middle.
+        /// </param>
+        /// <param name="right">
+        /// Right index of sub-array.
+        /// </param>
+        private static void Merge(int[] array, int left, int middle, int right)
+        {
+            var leftSubarray = new int[middle - left + 1];
+            var rightSubarray = new int[right - middle];
+
+            for (int i = 0; i < leftSubarray.Length; ++i)
+            {
+                leftSubarray[i] = array[left + i];
+            }
+
+            for (int i = 0; i < rightSubarray.Length; ++i)
+            {
+                rightSubarray[i] = array[middle + 1 + i];
+            }
+
+            int leftIndex = 0;
+            int rightIndex = 0;
+            int arrayIndex = left;
+
+            while (leftIndex < leftSubarray.Length && rightIndex < rightSubarray.Length)
+            {
+                if (leftSubarray[leftIndex] < rightSubarray[rightIndex])
+                {
+                    array[arrayIndex] = leftSubarray[leftIndex];
+                    leftIndex++;
+                }
+                else
+                {
+                    array[arrayIndex] = rightSubarray[rightIndex];
+                    rightIndex++;
+                }
+
+                arrayIndex++;
+            }
+
+            // If there are still some elements in leftSubarray.
+            while (leftIndex < leftSubarray.Length)
+            {
+                array[arrayIndex] = leftSubarray[leftIndex];
+                leftIndex++;
+                arrayIndex++;
+            }
+
+            // If there are still some elements in rightSubarray.
+            while (rightIndex < rightSubarray.Length)
+            {
+                array[arrayIndex] = rightSubarray[rightIndex];
+                rightIndex++;
+                arrayIndex++;
+            }
         }
     }
 }
