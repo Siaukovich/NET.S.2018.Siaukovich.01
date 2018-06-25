@@ -1,4 +1,11 @@
-﻿using System.Net.NetworkInformation;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Sorting.cs" company="Epam">
+//   
+// </copyright>
+// <summary>
+//   Sorting class that contains methods for quicksort and mergesort.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Sorting
 {
@@ -26,6 +33,25 @@ namespace Sorting
             }
 
             Qsorting(array, 0, array.Length - 1);
+        }
+
+        /// <summary>
+        /// Mergesort algorithm. Array that was passed to this function will become sorted.
+        /// </summary>
+        /// <param name="array">
+        /// Array that needs to be sorted.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Array is null.
+        /// </exception>
+        public static void Mergesort(int[] array)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException(nameof(array));
+            }
+
+            Mergesorting(array, 0, array.Length - 1);
         }
 
         /// <summary>
@@ -108,25 +134,6 @@ namespace Sorting
             int temp = a;
             a = b;
             b = temp;
-        }
-
-        /// <summary>
-        /// Mergesort algorithm. Array that was passed to this function will become sorted.
-        /// </summary>
-        /// <param name="array">
-        /// Array that needs to be sorted.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// Array is null.
-        /// </exception>
-        public static void Mergesort(int[] array)
-        {
-            if (array == null)
-            {
-                throw new ArgumentNullException(nameof(array));
-            }
-
-            Mergesorting(array, 0, array.Length - 1);
         }
 
         /// <summary>
