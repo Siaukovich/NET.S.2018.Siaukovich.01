@@ -22,6 +22,14 @@
         }
 
         [TestMethod]
+        public void Quicksort_EmptyArray_ReturnsEmptyArray()
+        {
+            int[] a = new int[0];
+            Sorting.Qsort(a);
+            Assert.IsTrue(a.Length == 0);
+        }
+
+        [TestMethod]
         public void Quicksort_OneElementArray_ReturnsSameArray()
         {
             int[] a = { 1 };
@@ -78,6 +86,14 @@
             int[] b = { 1 };
             Sorting.Mergesort(a);
             Assert.IsTrue(a.SequenceEqual(b));
+        }
+
+        [TestMethod]
+        public void Mergesort_EmptyArray_ReturnsEmptyArray()
+        {
+            int[] a = new int[0];
+            Sorting.Mergesort(a);
+            Assert.IsTrue(a.Length == 0);
         }
 
         [TestMethod]
