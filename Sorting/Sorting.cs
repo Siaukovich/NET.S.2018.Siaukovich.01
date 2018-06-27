@@ -27,10 +27,7 @@ namespace Sorting
         /// </exception>
         public static void Qsort(int[] array)
         {
-            if (array == null)
-            {
-                throw new ArgumentNullException(nameof(array));
-            }
+            ThrowIfNull(array);
 
             Qsorting(array, 0, array.Length - 1);
         }
@@ -46,10 +43,7 @@ namespace Sorting
         /// </exception>
         public static void Mergesort(int[] array)
         {
-            if (array == null)
-            {
-                throw new ArgumentNullException(nameof(array));
-            }
+            ThrowIfNull(array);
 
             Mergesorting(array, 0, array.Length - 1);
         }
@@ -226,6 +220,23 @@ namespace Sorting
                 array[arrayIndex] = rightSubarray[rightIndex];
                 rightIndex++;
                 arrayIndex++;
+            }
+        }
+
+        /// <summary>
+        /// Checks if passed array is valid.
+        /// </summary>
+        /// <param name="array">
+        /// Array that needs to be checked.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if array is null.
+        /// </exception>
+        private static void ThrowIfNull(int[] array)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException(nameof(array));
             }
         }
     }
