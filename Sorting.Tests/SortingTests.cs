@@ -48,6 +48,20 @@
         }
 
         [TestMethod]
+        public void Quicksort_VeryBigArray_ReturnsSorted()
+        {
+            // Because of the constant seed we always have same test arrays.
+            var rng = new Random(0);
+            const int testArraySize = 10000000; // 10 000 000.
+            int[] array = Enumerable.Repeat(0, testArraySize)
+                                    .Select(v => rng.Next(-testArraySize, testArraySize))
+                                    .ToArray();
+
+            Sorting.Qsort(array);
+            Assert.IsTrue(IsSorted(array));
+        }
+
+        [TestMethod]
         public void Quicksort_Random100Test_AllSorted()
         {
             // Because of the constant seed we always have same test arrays.
@@ -55,11 +69,14 @@
             int testArraySize = 1000;
             for (int i = 0; i < 100; ++i)
             {
-                int[] array = Enumerable.Range(0, testArraySize).Select(v => rng.Next(0, testArraySize)).ToArray();
+                int[] array = Enumerable.Repeat(0, testArraySize)
+                                        .Select(v => rng.Next(-testArraySize, testArraySize))
+                                        .ToArray();
+
                 Sorting.Qsort(array);
                 if (!IsSorted(array))
                 {
-                    // If test fails, you can set the breakpoint with condition "i == error_index".
+                    // If test fails, you can set the breakpoint with condition "i == errorIndex".
                     Assert.Fail($"Array #{i} was not sorted.");
                 }
             }
@@ -106,6 +123,20 @@
         }
 
         [TestMethod]
+        public void Mergesort_VeryBigArray_ReturnsSorted()
+        {
+            // Because of the constant seed we always have same test arrays.
+            var rng = new Random(0);
+            const int testArraySize = 10000000; // 10 000 000.
+            int[] array = Enumerable.Repeat(0, testArraySize)
+                .Select(v => rng.Next(-testArraySize, testArraySize))
+                .ToArray();
+
+            Sorting.Mergesort(array);
+            Assert.IsTrue(IsSorted(array));
+        }
+
+        [TestMethod]
         public void Mergesort_Random100Test_AllSorted()
         {
             // Because of the constant seed we always have same test arrays.
@@ -113,11 +144,14 @@
             int testArraySize = 1000;
             for (int i = 0; i < 100; ++i)
             {
-                int[] array = Enumerable.Range(0, testArraySize).Select(v => rng.Next(0, testArraySize)).ToArray();
+                int[] array = Enumerable.Repeat(0, testArraySize)
+                                        .Select(v => rng.Next(-testArraySize, testArraySize))
+                                        .ToArray();
+
                 Sorting.Mergesort(array);
                 if (!IsSorted(array))
                 {
-                    // If test fails, you can set the breakpoint with condition "i == error_index".
+                    // If test fails, you can set the breakpoint with condition "i == errorIndex".
                     Assert.Fail($"Array #{i} was not sorted.");
                 }
             }
