@@ -16,6 +16,8 @@ namespace Sorting
     /// </summary>
     public static class Sorting
     {
+        #region Public Methods
+
         /// <summary>
         /// Quicksort algorithm. Array that was passed to this function will become sorted.
         /// </summary>
@@ -27,7 +29,27 @@ namespace Sorting
         /// </exception>
         public static void Qsort(int[] array)
         {
-            ThrowIfNull(array);
+            ThrowForNull(array);
+
+            Qsorting(array, 0, array.Length - 1);
+        }
+
+        /// <summary>
+        /// Quicksort algorithm. Subarray of passed array
+        /// from left index to right index will become sorted.
+        /// </summary>
+        /// <param name="array">
+        /// Array which subarray needs to be sorted.
+        /// </param>
+        /// <param name="left">
+        /// Left subarray index.
+        /// </param>
+        /// <param name="right">
+        /// Right subarray index.
+        /// </param>
+        public static void Qsort(int[] array, int left, int right)
+        {
+            ThrowForInvalidArguments(array, left, right);
 
             Qsorting(array, 0, array.Length - 1);
         }
@@ -43,10 +65,37 @@ namespace Sorting
         /// </exception>
         public static void Mergesort(int[] array)
         {
-            ThrowIfNull(array);
+            ThrowForNull(array);
 
             Mergesorting(array, 0, array.Length - 1);
         }
+
+        /// <summary>
+        /// Mergesort algorithm. Subarray of passed array
+        /// from left index to right index will become sorted.
+        /// </summary>
+        /// <param name="array">
+        /// Array which subarray needs to be sorted.
+        /// </param>
+        /// <param name="left">
+        /// Left subarray index.
+        /// </param>
+        /// <param name="right">
+        /// Right subarray index.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Array is null.
+        /// </exception>
+        public static void Mergesort(int[] array, int left, int right)
+        {
+            ThrowForInvalidArguments(array, left, right);
+
+            Mergesorting(array, 0, array.Length - 1);
+        }
+        
+        #endregion
+
+        #region Private Methods
 
         /// <summary>
         /// Method responsible for choosing pivot element and partitioning array.
@@ -232,12 +281,49 @@ namespace Sorting
         /// <exception cref="ArgumentNullException">
         /// Thrown if array is null.
         /// </exception>
-        private static void ThrowIfNull(int[] array)
+        private static void ThrowForNull(int[] array)
         {
             if (array == null)
             {
                 throw new ArgumentNullException(nameof(array));
             }
         }
+
+        /// <summary>
+        /// Checks if passed parameters are valid.
+        /// </summary>
+        /// <param name="array">
+        /// Array which subarray needs to be sorted.
+        /// </param>
+        /// <param name="left">
+        /// Left subarray index.
+        /// </param>
+        /// <param name="right">
+        /// Right subarray index.
+        /// </param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown in four cases: array is null, left  0, right &gt array.Length, left > right.
+        /// </exception>
+        private static void ThrowForInvalidArguments(int[] array, int left, int right)
+        {
+            ThrowForNull(array);
+
+            if (left < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(left), $"{nameof(left)} can not be below 0.");
+            }
+
+            if (right > array.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(right), $"{nameof(right)} can not be more than array size (array.Length = {array.Length}.");
+            }
+
+            if (left > right)
+            {
+                throw new ArgumentOutOfRangeException(nameof(left), $"{nameof(left)} can not be more than {nameof(right)}. left = {left}, right = {right}");
+            }
+        }
+
+        #endregion
     }
 }
