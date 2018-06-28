@@ -13,8 +13,9 @@
     {
         #region Quicksort tests
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        #region Full array sorting
+
+        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void Quicksort_PassedNull_ThrowsArgumentNullException()
         {
             int[] a = null;
@@ -54,8 +55,8 @@
             var rng = new Random(0);
             const int testArraySize = 10000000; // 10 000 000.
             int[] array = Enumerable.Repeat(0, testArraySize)
-                                    .Select(v => rng.Next(-testArraySize, testArraySize))
-                                    .ToArray();
+                .Select(v => rng.Next(-testArraySize, testArraySize))
+                .ToArray();
 
             Sorting.Qsort(array);
             Assert.IsTrue(IsSorted(array));
@@ -70,8 +71,8 @@
             for (int i = 0; i < 100; ++i)
             {
                 int[] array = Enumerable.Repeat(0, testArraySize)
-                                        .Select(v => rng.Next(-testArraySize, testArraySize))
-                                        .ToArray();
+                    .Select(v => rng.Next(-testArraySize, testArraySize))
+                    .ToArray();
 
                 Sorting.Qsort(array);
                 if (!IsSorted(array))
@@ -83,13 +84,66 @@
         }
         
 
+            #endregion
+
+        #region Subarray sorting
+
+        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        public void Quicksort_NullArraySubarraySorting_ThrowsArgumentNullException() =>
+            Sorting.Qsort(null, 1, 4);
+
+        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Quicksort_RightSubarrayBorderOutOfRange_ThrowsArgumentOutOfRangeException() =>
+            Sorting.Qsort(Enumerable.Range(0, 100).ToArray(), 1, 101);
+
+        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Quicksort_LeftSubarrayBorderOutOfRange_ThrowsArgumentOutOfRangeException() =>
+            Sorting.Qsort(Enumerable.Range(0, 100).ToArray(), -1, 10);
+
+        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Quicksort_LeftSubarrayBorderIsGreaterThanRight_ThrowsArgumentOutOfRangeException() =>
+            Sorting.Qsort(Enumerable.Range(0, 100).ToArray(), 11, 1);
+
+        [TestMethod]
+        public void Quicksort_SortingSubarray_PartiallySortedArray()
+        {
+            var rng = new Random(0);
+            int testArraySize = 100;
+            int[] array = Enumerable.Range(0, testArraySize)
+                .Select(v => rng.Next(-testArraySize, testArraySize))
+                .ToArray();
+
+            Sorting.Qsort(array, 1, 11);
+            Assert.IsTrue(IsSorted(array.Skip(1).Take(10).ToArray()));
+        }
+
+        [TestMethod]
+        public void Quicksort_SortingBigSubarray_PartiallySortedArray()
+        {
+            var rng = new Random(0);
+            int testArraySize = 1000000;
+            int[] array = Enumerable.Range(0, testArraySize)
+                .Select(v => rng.Next(-testArraySize, testArraySize))
+                .ToArray();
+
+            int lowerBound = 20000;
+            int higherBound = 500000;
+            int subarrayLength = higherBound - lowerBound;
+
+            Sorting.Qsort(array, lowerBound, higherBound);
+            Assert.IsTrue(IsSorted(array.Skip(lowerBound).Take(subarrayLength).ToArray()));
+        }
+
+        #endregion
+
         #endregion
 
 
         #region Mergesort tests
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        #region Full array sorting
+
+        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void Mergesort_PassedNull_ThrowsArgumentNullException()
         {
             int[] a = null;
@@ -145,8 +199,8 @@
             for (int i = 0; i < 100; ++i)
             {
                 int[] array = Enumerable.Repeat(0, testArraySize)
-                                        .Select(v => rng.Next(-testArraySize, testArraySize))
-                                        .ToArray();
+                    .Select(v => rng.Next(-testArraySize, testArraySize))
+                    .ToArray();
 
                 Sorting.Mergesort(array);
                 if (!IsSorted(array))
@@ -156,7 +210,59 @@
                 }
             }
         }
+
+        #endregion
+
+        #region Subarray sorting
+
+        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        public void Mergesort_NullArraySubarraySorting_ThrowsArgumentNullException() => 
+            Sorting.Mergesort(null, 1, 4);
+
+        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Mergesort_RightSubarrayBorderOutOfRange_ThrowsArgumentOutOfRangeException() =>
+            Sorting.Mergesort(Enumerable.Range(0, 100).ToArray(), 1, 101);
+
+        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Mergesort_LeftSubarrayBorderOutOfRange_ThrowsArgumentOutOfRangeException() =>
+            Sorting.Mergesort(Enumerable.Range(0, 100).ToArray(), -1, 10);
+
+        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Mergesort_LeftSubarrayBorderIsGreaterThanRight_ThrowsArgumentOutOfRangeException() =>
+            Sorting.Mergesort(Enumerable.Range(0, 100).ToArray(), 11, 1);
+
+        [TestMethod]
+        public void Mergesort_SortingSubarray_PartiallySortedArray()
+        {
+            var rng = new Random(0);
+            int testArraySize = 100;
+            int[] array = Enumerable.Range(0, testArraySize)
+                .Select(v => rng.Next(-testArraySize, testArraySize))
+                .ToArray();
+
+            Sorting.Mergesort(array, 1, 11);
+            Assert.IsTrue(IsSorted(array.Skip(1).Take(10).ToArray()));
+        }
+
+        [TestMethod]
+        public void Mergesort_SortingBigSubarray_PartiallySortedArray()
+        {
+            var rng = new Random(0);
+            int testArraySize = 1000000;
+            int[] array = Enumerable.Range(0, testArraySize)
+                .Select(v => rng.Next(-testArraySize, testArraySize))
+                .ToArray();
+
+            int lowerBound = 20000;
+            int higherBound = 500000;
+            int subarrayLength = higherBound - lowerBound;
+
+            Sorting.Mergesort(array, lowerBound, higherBound);
+            Assert.IsTrue(IsSorted(array.Skip(lowerBound).Take(subarrayLength).ToArray()));
+        }
         
+
+        #endregion
 
         #endregion
 
