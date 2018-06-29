@@ -1,6 +1,7 @@
 ﻿namespace Sorting.Tests
 {
     using System;
+    using System.Diagnostics;
     using System.Linq;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -53,12 +54,16 @@
         {
             // Because of the constant seed we always have same test arrays.
             var rng = new Random(0);
+            var sw = new Stopwatch();
+            sw.Start();
             const int testArraySize = 10000000; // 10 000 000.
             int[] array = Enumerable.Repeat(0, testArraySize)
                 .Select(v => rng.Next(-testArraySize, testArraySize))
                 .ToArray();
 
             Sorting.Qsort(array);
+            sw.Stop();
+            Debug.Print($"Elapsed time = {sw.ElapsedMilliseconds}");
             Assert.IsTrue(IsSorted(array));
         }
 
@@ -68,6 +73,8 @@
             // Because of the constant seed we always have same test arrays.
             var rng = new Random(0);
             int testArraySize = 1000;
+            var sw = new Stopwatch();
+            sw.Start(); 
             for (int i = 0; i < 100; ++i)
             {
                 int[] array = Enumerable.Repeat(0, testArraySize)
@@ -81,6 +88,8 @@
                     Assert.Fail($"Array #{i} was not sorted.");
                 }
             }
+            sw.Stop();
+            Debug.Print($"Elapsed time = {sw.ElapsedMilliseconds}");
         }
         
 
@@ -181,12 +190,16 @@
         {
             // Because of the constant seed we always have same test arrays.
             var rng = new Random(0);
+            var sw = new Stopwatch();
+            sw.Start();
             const int testArraySize = 10000000; // 10 000 000.
             int[] array = Enumerable.Repeat(0, testArraySize)
                 .Select(v => rng.Next(-testArraySize, testArraySize))
                 .ToArray();
 
             Sorting.Mergesort(array);
+            sw.Stop();
+            Debug.Print($"Elapsed time = {sw.ElapsedMilliseconds}");
             Assert.IsTrue(IsSorted(array));
         }
 
@@ -196,6 +209,8 @@
             // Because of the constant seed we always have same test arrays.
             var rng = new Random(0);
             int testArraySize = 1000;
+            var sw = new Stopwatch();
+            sw.Start();
             for (int i = 0; i < 100; ++i)
             {
                 int[] array = Enumerable.Repeat(0, testArraySize)
@@ -209,6 +224,8 @@
                     Assert.Fail($"Array #{i} was not sorted.");
                 }
             }
+            sw.Stop();
+            Debug.Print($"Elapsed time = {sw.ElapsedMilliseconds}");
         }
 
         #endregion
