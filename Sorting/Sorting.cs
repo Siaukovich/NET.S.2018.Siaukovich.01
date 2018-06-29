@@ -116,8 +116,7 @@ namespace Sorting
                 return;
             }
 
-            var rng = new Random();
-            int randomPivotIndex = rng.Next(left, right + 1);
+            int randomPivotIndex = (left + right) / 2;
             int pivotIndex = Partition(array, left, right, randomPivotIndex);
 
             Qsorting(array, left, pivotIndex - 1);
